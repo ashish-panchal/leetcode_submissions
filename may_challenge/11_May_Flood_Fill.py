@@ -31,34 +31,35 @@ The value of each color in image[i][j] and newColor will be an integer in [0, 65
 
 
 class Solution(object):
-    def floodFill(self, image, sr, sc, newColor):
+    def color_it(self, image, sr, sc, new_color):
         """
         :type image: List[List[int]]
         :type sr: int
         :type sc: int
-        :type newColor: int
+        :type new_color: int
         :rtype: List[List[int]]
         """
-        #self.image = image
+        # Initiate an array to keep the track of visited elements
+        # and color of the elements
         self.image = []
-
 
         for i in range(len(image)):
             self.image.append([])
             for j in range(len(image[i])):
+                # Keep the track of color and if the node is already visited
                 value = {"color": image[i][j], "visited": False}
                 self.image[i].append(value)
 
         current_color = image[sr][sc]
 
-        self.flood_all(image, sr, sc, current_color, newColor)
+        self.flood_fill(image, sr, sc, current_color, new_color)
 
         for i in range(len(image)):
             for j in range(len(image[i])):
                 image[i][j] = self.image[i][j]["color"]
         return image
 
-    def flood_all(self, image, row, col, current_color, newColor):
+    def flood_fill(self, image, row, col, current_color, new_color):
         if row < 0 or row >= len(image) or col < 0 or col >= len(image[0]):
             return
 
@@ -67,10 +68,11 @@ class Solution(object):
         elif image[row][col] == current_color and self.image[row][col]["visited"]:
             return
         elif image[row][col] == current_color and not self.image[row][col]["visited"]:
-            self.image[row][col]["color"] = newColor
+            self.image[row][col]["color"] = new_color
             self.image[row][col]["visited"] = True
 
-        self.flood_all(image, row + 1, col, current_color, newColor)
-        self.flood_all(image, row - 1, col, current_color, newColor)
-        self.flood_all(image, row, col + 1, current_color, newColor)
-        self.flood_all(image, row, col - 1, current_color, newColor)
+        # Recursively call flood_fill for adjacent nodes
+        self.flood_fill(image, row + 1, col, current_color, new_color)
+        self.flood_fill(image, row - 1, col, current_color, new_color)
+        self.flood_fill(image, row, col + 1, current_color, new_color)
+        self.flood_fill(image, row, col - 1, current_color, new_color)
