@@ -9,6 +9,10 @@ class Solution(object):
         self.order = []
         self.adj = [[] for i in range(numCourses)]
         self.is_cyclic = False
+
+        """
+        Cycle detection using colors: https://www.geeksforgeeks.org/detect-cycle-direct-graph-using-colors/
+        """
         self.color = ["WHITE" for i in range(numCourses)]
 
         for course in prerequisites:
